@@ -1,58 +1,98 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# SIPUS SD
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Sistem Informasi Perpustakaan Sekolah Dasar. Aplikasi web untuk perpustakaan SD dengan **satu pengguna**, yaitu admin (petugas perpustakaan). Siswa dan guru hanya data anggota, bukan pengguna. Berjalan **online** di komputer perpustakaan — tidak ada aset yang dimuat dari CDN.
 
-## About Laravel
+Stack: Laravel 13 + MariaDB/MySQL, Blade + Tailwind CSS v4 via Vite. Antarmuka, dokumen, dan istilah domain berbahasa Indonesia.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Fitur:
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- Login, logout, ganti password, dan reset password darurat lewat terminal.
+- Dashboard: jumlah judul, eksemplar, anggota aktif, buku dipinjam, buku terlambat, transaksi terbaru.
+- Data master: kategori, buku, anggota (dengan pencarian dan filter).
+- Sirkulasi: catat peminjaman, cetak slip A5, riwayat, batalkan transaksi, catat pengembalian (sebagian/penuh).
+- Laporan: peminjaman per periode, buku belum kembali/terlambat, inventaris buku — bisa dicetak atau diekspor PDF/Excel.
+- Pengaturan: identitas sekolah, kepala sekolah, petugas, lama pinjam, batas jumlah pinjam.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Spesifikasi adalah sumber kebenaran. Baca sebelum mengubah perilaku:
 
-## Learning Laravel
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+- `docs/04-Manual-Pengguna.md` — panduan instalasi, pemakaian, backup, dan reset password.
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## Kebutuhan
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+- PHP ≥ 8.3
+- MySQL 8 atau MariaDB 10.6+
+- Node.js + npm (untuk build aset Vite)
+- Browser modern (Chrome, Edge, atau Firefox)
 
-## Agentic Development
+Dependensi utama: `laravel/framework` 13, `barryvdh/laravel-dompdf` (PDF), `spatie/simple-excel` (Excel).
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+## Instalasi
 
 ```bash
-composer require laravel/boost --dev
-
-php artisan boost:install
+composer install
+npm install
+npm run build
+cp .env.example .env
+php artisan key:generate
+php artisan migrate --seed
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+Atau jalankan sekali dengan skrip bawaan `composer setup` (menjalankan install, `.env`, key, migrate, dan build).
 
-## Contributing
+Sesuaikan `DB_DATABASE`, `DB_USERNAME`, dan `DB_PASSWORD` di `.env` dengan basis data lokal (`perpustakaan_sd`, user `perpus`).
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## Login pertama
 
-## Code of Conduct
+- Username: `admin`
+- Password: `admin123`
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Segera ganti password lewat menu **Ganti Password** setelah login pertama.
 
-## Security Vulnerabilities
+## Menjalankan
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+```bash
+composer run dev
+```
 
-## License
+Alternatifnya: `php artisan serve` dan `npm run dev` di terminal terpisah.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Aplikasi dibuka di `http://localhost:8000`. Tidak butuh internet.
+
+> Catatan: `npm run build` hanya menghasilkan class Tailwind yang ditemukan saat build. Jika memakai `php artisan serve` tanpa Vite dev server, jalankan `npm run build` lagi setelah menambah class baru di view, supaya tata letak baru benar-benar diterapkan.
+
+## Pengujian
+
+```bash
+php artisan test
+```
+
+Menjalankan 94 test (PHPUnit, SQLite in-memory). Format kode: `vendor/bin/pint`.
+
+## Reset password darurat
+
+Jika admin lupa password:
+
+```bash
+php artisan admin:reset-password
+```
+
+## Backup dan restore
+
+- MariaDB 13 ke atas: `mysqldump` masih berjalan tetapi sudah usang — gunakan `mariadb-dump`.
+- MySQL (mis. Laragon): tetap `mysqldump`.
+
+```bash
+# Backup (MariaDB)
+mariadb-dump -u perpus -p perpustakaan_sd > backup.sql
+
+# Backup (MySQL/Laragon)
+mysqldump -u perpus -p perpustakaan_sd > backup.sql
+
+# Restore
+mysql -u perpus -p perpustakaan_sd < backup.sql
+```
+
+## Struktur
+
+Struktur mengikuti MVC Laravel. Tabel domain berbahasa Indonesia dan tunggal: `kategori`, `buku`, `anggota`, `peminjaman`, `detail_peminjaman`, `pengaturan` (lihat `docs/02-DPPL.md`).
