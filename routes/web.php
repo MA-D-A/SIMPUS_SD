@@ -18,5 +18,6 @@ Route::middleware('auth')->group(function () {
 
 
     Route::resource('kategori', KategoriController::class)->except('show');
+    Route::resource('buku', BukuController::class);
 
     });
