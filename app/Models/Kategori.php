@@ -1,33 +1,22 @@
 <?php
 
-namespace Database\Seeders;
+namespace App\Models;
 
-use App\Models\Kategori;
-use App\Models\Pengaturan;
-use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use Illuminate\Database\Seeder;
+use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Attributes\Table;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class DatabaseSeeder extends Seeder
+#[Table('kategori')]
+#[Fillable(['nama'])]
+class Kategori extends Model
 {
-    use WithoutModelEvents;
+    use HasFactory;
 
-    /**
-     * Data awal saat instalasi. Tidak memakai factory/Faker karena
-     * di komputer sekolah dependency dev tidak dipasang (--no-dev).
-     */
-    public function run(): void
+    /** @return HasMany<Buku, $this> */
+    public function buku(): HasMany
     {
-        User::create([
-            'name' => 'Petugas Perpustakaan',
-            'username' => 'admin',
-            'password' => 'admin123',
-        ]);
-
-        Pengaturan::ambil();
-
-        foreach (['Fiksi','Non-Fiksi'] as $nama) {
-            Kategori::create(['nama' => $nama]);
-        }
+        return $this->hasMany(Buku::class);
     }
 }

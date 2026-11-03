@@ -1,5 +1,5 @@
 <?php
-
+use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PasswordController;
@@ -15,4 +15,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/', DashboardController::class)->name('dashboard');
     Route::get('/password', [PasswordController::class, 'edit'])->name('password.edit');
     Route::put('/password', [PasswordController::class, 'update'])->name('password.update');
-});
+
+
+    Route::resource('kategori', KategoriController::class)->except('show');
+
+    });
