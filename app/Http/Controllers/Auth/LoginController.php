@@ -25,7 +25,6 @@ class LoginController extends Controller
             'password' => ['required', 'string'],
         ]);
 
-        // SKPL-NF-001: maksimal 5 percobaan gagal per menit untuk tiap username + IP.
         $kunci = Str::transliterate(Str::lower($kredensial['username']).'|'.$request->ip());
 
         if (RateLimiter::tooManyAttempts($kunci, 5)) {
