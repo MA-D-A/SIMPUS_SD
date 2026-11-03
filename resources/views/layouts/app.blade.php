@@ -13,6 +13,9 @@
         ['judul' => null, 'item' => [
             ['Dashboard', 'dashboard', 'dashboard'],
         ]],
+        ['judul' => 'Master Data', 'item' => [
+            ['Kategori', 'kategori.index', 'kategori.*']
+        ]]
     ];
 @endphp
 <aside class="border-b border-slate-200 bg-white lg:fixed lg:inset-y-0 lg:w-60 lg:border-r lg:border-b-0">
