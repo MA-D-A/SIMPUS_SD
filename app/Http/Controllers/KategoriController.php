@@ -2,63 +2,53 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Http\Requests\KategoriRequest;
+use App\Models\Kategori;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 
 class KategoriController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function index(): View
     {
-        //
+        $kategori = Kategori::withCount('buku')->orderBy('nama')->paginate(15);
+
+        return view('kategori.index', compact('kategori'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function create(): View
     {
-        //
+        return view('kategori.form', ['kategori' => new Kategori]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function store(KategoriRequest $request): RedirectResponse
     {
-        //
+        Kategori::create($request->validated());
+
+        return redirect()->route('kategori.index')->with('sukses', 'Kategori berhasil ditambahkan.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function edit(Kategori $kategori): View
     {
-        //
+        return view('kategori.form', compact('kategori'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function update(KategoriRequest $request, Kategori $kategori): RedirectResponse
     {
-        //
+        $kategori->update($request->validated());
+
+        return redirect()->route('kategori.index')->with('sukses', 'Kategori berhasil diubah.');
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function destroy(Kategori $kategori): RedirectResponse
     {
-        //
-    }
+        // BR-07: kategori yang masih dipakai buku tidak bisa dihapus.
+        if ($jumlah = $kategori->buku()->count()) {
+            return back()->with('gagal', "Kategori tidak bisa dihapus karena masih dipakai oleh $jumlah buku.");
+        }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        $kategori->delete();
+
+        return redirect()->route('kategori.index')->with('sukses', 'Kategori berhasil dihapus.');
     }
 }
