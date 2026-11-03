@@ -14,7 +14,8 @@
             ['Dashboard', 'dashboard', 'dashboard'],
         ]],
         ['judul' => 'Master Data', 'item' => [
-            ['Kategori', 'kategori.index', 'kategori.*']
+            ['Kategori', 'kategori.index', 'kategori.*'],
+             ['Buku', 'buku.index', 'buku.*'],
         ]]
     ];
 @endphp
