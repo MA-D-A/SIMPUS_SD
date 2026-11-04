@@ -1,4 +1,4 @@
-# SIPUS SD
+# SIMPUS SD
 
 Sistem Informasi Perpustakaan Sekolah Dasar. Aplikasi web untuk perpustakaan SD dengan **satu pengguna**, yaitu admin (petugas perpustakaan). Siswa dan guru hanya data anggota, bukan pengguna. Berjalan **online** di komputer perpustakaan — tidak ada aset yang dimuat dari CDN.
 
