@@ -17,6 +17,10 @@
             ['Kategori', 'kategori.index', 'kategori.*'],
              ['Buku', 'buku.index', 'buku.*'],
              ['Anggota', 'anggota.index', 'anggota.*'],
+        ]],
+        ['judul' => 'Transaksi', 'item' => [
+            ['Peminjaman', 'peminjaman.index', 'peminjaman.*'],
+            ['Pengembalian', 'pengembalian.index', 'pengembalian.*'],
         ]]
     ];
 @endphp
