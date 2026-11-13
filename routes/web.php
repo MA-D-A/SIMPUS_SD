@@ -32,4 +32,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/pengembalian', [PengembalianController::class, 'index'])->name('pengembalian.index');
     Route::get('/pengembalian/{peminjaman}', [PengembalianController::class, 'create'])->name('pengembalian.create');
     Route::post('/pengembalian/{peminjaman}', [PengembalianController::class, 'store'])->name('pengembalian.store');
+
+
+    Route::get('/pengaturan', [PengaturanController::class, 'edit'])->name('pengaturan.edit');
+    Route::put('/pengaturan', [PengaturanController::class, 'update'])->name('pengaturan.update');
     });

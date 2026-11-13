@@ -21,7 +21,10 @@
         ['judul' => 'Transaksi', 'item' => [
             ['Peminjaman', 'peminjaman.index', 'peminjaman.*'],
             ['Pengembalian', 'pengembalian.index', 'pengembalian.*']
-        ]]
+        ]],
+          ['judul' => 'Lainnya', 'item' => [
+            ['Pengaturan', 'pengaturan.edit', 'pengaturan.*'],
+        ]],
     ];
 @endphp
 <aside class="border-b border-slate-200 bg-white lg:fixed lg:inset-y-0 lg:w-60 lg:border-r lg:border-b-0">
