@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Kategori;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 /**
  * @extends Factory<Kategori>
@@ -18,7 +19,7 @@ class KategoriFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'nama' => Str::title(fake()->unique()->words(2, true)),
         ];
     }
 }

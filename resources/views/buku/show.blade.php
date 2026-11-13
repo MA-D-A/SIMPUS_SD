@@ -1,4 +1,3 @@
-```blade
 @extends('layouts.app')
 
 @section('judul', $buku->judul)
@@ -76,4 +75,3 @@
         </table>
     </div>
 @endsection
-```

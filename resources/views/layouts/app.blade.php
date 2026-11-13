@@ -20,7 +20,7 @@
         ]],
         ['judul' => 'Transaksi', 'item' => [
             ['Peminjaman', 'peminjaman.index', 'peminjaman.*'],
-            ['Pengembalian', 'pengembalian.index', 'pengembalian.*'],
+            ['Pengembalian', 'pengembalian.index', 'pengembalian.*']
         ]]
     ];
 @endphp

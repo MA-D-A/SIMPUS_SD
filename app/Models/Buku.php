@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 #[Table('buku')]
-#[Fillable(['kode_buku', 'judul', 'pengarang', 'penerbit', 'tahun_terbit', 'isbn', 'kategori_id', 'jumlah', 'kondisi'])]
+#[Fillable(['kode_buku', 'judul', 'pengarang', 'penerbit', 'tahun_terbit', 'isbn', 'kategori_id', 'jumlah','kondisi'])]
 class Buku extends Model
 {
     use HasFactory;
@@ -40,14 +40,17 @@ class Buku extends Model
     /**
      * Cari berdasarkan kode, judul, atau pengarang.
      */
-    public function scopeCari(Builder $query, string $cari): void
-    {
-        $query->where(fn (Builder $q) => $q
-            ->where('kode_buku', 'like', "%$cari%")
-            ->orWhere('judul', 'like', "%$cari%")
-            ->orWhere('pengarang', 'like', "%$cari%"));
-    }
+   public function scopeCari(Builder $query, string $cari): void{
+    $isbn = preg_replace('/[\s-]+/', '', $cari);
 
+    $query->where(fn (Builder $q) => $q
+        ->where('kode_buku', 'like', "%$cari%")
+        ->orWhere('judul', 'like', "%$cari%")
+        ->orWhere('pengarang', 'like', "%$cari%")
+        ->orWhere('isbn', 'like', "%$cari%")
+        ->when($isbn !== '', fn (Builder $q) => $q
+            ->orWhereRaw("REPLACE(REPLACE(isbn, '-', ''), ' ', '') LIKE ?", ["%$isbn%"])));
+}
     public function jumlahDipinjam(): int
     {
         return $this->dipinjam_count ?? $this->detailPeminjaman()->whereNull('tanggal_kembali')->count();

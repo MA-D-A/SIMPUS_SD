@@ -11,7 +11,7 @@
 
     <form method="GET" role="search" class="mb-4 flex flex-wrap items-end gap-3">
         <div class="w-full sm:w-80">
-            <x-field name="cari" label="Cari" type="search" :value="request('cari')" placeholder="Kode, judul, atau pengarang" />
+            <x-field name="cari" label="Cari" type="search" :value="request('cari')" placeholder="Kode ,ISBN, judul, atau pengarang" />
         </div>
         <div class="w-full sm:w-56">
             <label for="kategori" class="block text-sm font-medium text-slate-700">Kategori</label>

@@ -7,8 +7,10 @@ use App\Models\Anggota;
 use App\Models\Buku;
 use App\Models\Peminjaman;
 use App\Models\Pengaturan;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
@@ -101,10 +103,13 @@ class PeminjamanController extends Controller
         return redirect()->route('peminjaman.index')->with('sukses', "Peminjaman {$peminjaman->kode} dibatalkan.");
     }
 
-    public function slip(Peminjaman $peminjaman): View
+    public function slip(Peminjaman $peminjaman): Response
     {
         $peminjaman->load(['anggota', 'detail.buku']);
 
-        return view('peminjaman.slip', compact('peminjaman'));
+        return Pdf::loadView('peminjaman.slip', [
+            'peminjaman' => $peminjaman,
+            'pdf' => true,
+        ])->setPaper('a5', 'portrait')->stream("slip-{$peminjaman->kode}.pdf");
     }
 }
