@@ -23,6 +23,7 @@
             ['Pengembalian', 'pengembalian.index', 'pengembalian.*']
         ]],
           ['judul' => 'Lainnya', 'item' => [
+           ['Laporan', 'laporan.index', 'laporan.*'],
             ['Pengaturan', 'pengaturan.edit', 'pengaturan.*'],
         ]],
     ];

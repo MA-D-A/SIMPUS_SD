@@ -34,6 +34,12 @@ Route::middleware('auth')->group(function () {
     Route::post('/pengembalian/{peminjaman}', [PengembalianController::class, 'store'])->name('pengembalian.store');
 
 
+    Route::get('/laporan', [LaporanController::class, 'index'])->name('laporan.index');
+    Route::get('/laporan/peminjaman', [LaporanController::class, 'peminjaman'])->name('laporan.peminjaman');
+    Route::get('/laporan/belum-kembali', [LaporanController::class, 'belumKembali'])->name('laporan.belum-kembali');
+    Route::get('/laporan/buku', [LaporanController::class, 'buku'])->name('laporan.buku');
+
+
     Route::get('/pengaturan', [PengaturanController::class, 'edit'])->name('pengaturan.edit');
     Route::put('/pengaturan', [PengaturanController::class, 'update'])->name('pengaturan.update');
     });
