@@ -13,6 +13,14 @@ return new class extends Migration
     {
         Schema::create('buku', function (Blueprint $table) {
             $table->id();
+            $table->string('kode_buku', 20)->unique();
+            $table->string('judul');
+            $table->string('pengarang', 150);
+            $table->string('penerbit', 150)->nullable();
+            $table->year('tahun_terbit')->nullable();
+            $table->string('isbn', 20)->nullable();
+            $table->foreignId('kategori_id')->constrained('kategori')->restrictOnDelete();
+            $table->unsignedSmallInteger('jumlah')->default(1);
             $table->timestamps();
         });
     }

@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 #[Table('buku')]
-#[Fillable(['kode_buku', 'judul', 'pengarang', 'penerbit', 'tahun_terbit', 'isbn', 'kategori_id', 'jumlah'])]
+#[Fillable(['kode_buku', 'judul', 'pengarang', 'penerbit', 'tahun_terbit', 'isbn', 'kategori_id', 'jumlah', 'kondisi'])]
 class Buku extends Model
 {
     use HasFactory;

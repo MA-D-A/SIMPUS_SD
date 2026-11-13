@@ -36,6 +36,7 @@
                     <th>Judul</th>
                     <th>Pengarang</th>
                     <th>Kategori</th>
+                    <th>Kondisi</th>
                     <th class="text-right">Tersedia / Jumlah</th>
                     <th><span class="sr-only">Aksi</span></th>
                 </tr>
@@ -47,6 +48,7 @@
                         <td><a href="{{ route('buku.show', $b) }}" class="link">{{ $b->judul }}</a></td>
                         <td>{{ $b->pengarang }}</td>
                         <td>{{ $b->kategori->nama }}</td>
+                        <td>{{ $b->kondisi }}</td>
                         <td class="text-right whitespace-nowrap tabular-nums">{{ $b->tersedia }} / {{ $b->jumlah }}</td>
                         <td class="text-right whitespace-nowrap">
                             <a href="{{ route('buku.edit', $b) }}" class="link">Ubah</a>
@@ -55,7 +57,7 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="6" class="py-8 text-center text-slate-500">
+                        <td colspan="7" class="py-8 text-center text-slate-500">
                             {{ $adaFilter ? 'Buku tidak ditemukan.' : 'Belum ada data buku.' }}
                         </td>
                     </tr>

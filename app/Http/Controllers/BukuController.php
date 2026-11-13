@@ -28,7 +28,7 @@ class BukuController extends Controller
     public function create(): View
     {
         return view('buku.form', [
-            'buku' => new Buku(['kode_buku' => Buku::kodeBerikutnya(), 'jumlah' => 1]),
+            'buku' => new Buku(['kode_buku' => Buku::kodeBerikutnya(), 'jumlah' => 1, 'kondisi' => 'Baik']),
             'semuaKategori' => Kategori::orderBy('nama')->get(),
         ]);
     }

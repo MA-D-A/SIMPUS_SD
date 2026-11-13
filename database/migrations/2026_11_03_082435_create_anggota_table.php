@@ -13,6 +13,13 @@ return new class extends Migration
     {
         Schema::create('anggota', function (Blueprint $table) {
             $table->id();
+            $table->string('nomor_induk', 30)->unique();
+            $table->string('nama', 150);
+            $table->enum('jenis', ['siswa', 'guru']);
+            $table->string('kelas', 10)->nullable();
+            $table->enum('jenis_kelamin', ['L', 'P']);
+            $table->string('no_hp', 20)->nullable();
+            $table->boolean('aktif')->default(true);
             $table->timestamps();
         });
     }
