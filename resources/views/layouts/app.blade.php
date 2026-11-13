@@ -16,22 +16,24 @@
         ['judul' => 'Master Data', 'item' => [
             ['Kategori', 'kategori.index', 'kategori.*'],
              ['Buku', 'buku.index', 'buku.*'],
+             ['Anggota', 'anggota.index', 'anggota.*'],
         ]]
     ];
 @endphp
 <aside class="border-b border-slate-200 bg-white lg:fixed lg:inset-y-0 lg:w-60 lg:border-r lg:border-b-0">
-    <a href="{{ route('dashboard') }}" class="block px-5 pt-4 pb-3 text-lg font-bold text-primary-strong lg:py-5">
-        SIPUS SD
+    <a href="{{ route('dashboard') }}" class="block border-b border-slate-200 px-5 py-5 text-primary-strong">
+        <span class="block text-lg font-bold">SIPUS SD</span>
+        <span class="mt-1 block text-sm font-normal text-slate-600">Perpustakaan sekolah</span>
     </a>
-    <nav aria-label="Menu utama" class="flex flex-wrap gap-1 px-3 pb-3 lg:flex-col lg:flex-nowrap">
+    <nav aria-label="Menu utama" class="flex flex-wrap gap-2 px-3 py-4 lg:flex-col lg:flex-nowrap lg:gap-1 lg:px-4">
         @foreach ($menu as $grup)
             @if ($grup['judul'])
-                <p class="mt-4 hidden px-3 pb-1 text-xs font-semibold tracking-wide text-slate-500 uppercase lg:block">{{ $grup['judul'] }}</p>
+                <p class="mt-3 hidden px-3 pb-2 text-sm font-semibold text-primary-strong lg:block">{{ $grup['judul'] }}</p>
             @endif
             @foreach ($grup['item'] as [$label, $route, $pola])
                 @php($aktif = request()->routeIs($pola))
                 <a href="{{ route($route) }}" @if ($aktif) aria-current="page" @endif
-                   class="flex min-h-11 items-center rounded-md px-3 text-sm font-medium {{ $aktif ? 'bg-primary-soft text-primary-strong' : 'text-slate-700 hover:bg-slate-100' }}">
+                   class="flex min-h-11 items-center rounded-md px-3 text-sm font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary {{ $aktif ? 'bg-slate-100 font-semibold text-primary-strong' : 'text-slate-700 hover:bg-slate-50 hover:text-primary-strong' }}">
                     {{ $label }}
                 </a>
             @endforeach
@@ -40,14 +42,13 @@
 </aside>
 
 <div class="lg:pl-60">
-    <header class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-200 bg-white px-6 py-3">
-        <p class="text-sm text-slate-600">Perpustakaan {{ $pengaturan->nama_sekolah }}</p>
+    <header class="flex flex-wrap items-center justify-between gap-3 bg-primary px-6 py-3 text-white">
+        <p class="text-sm font-medium">Perpustakaan {{ $pengaturan->nama_sekolah }}</p>
         <div class="flex flex-wrap items-center gap-2">
-            <span class="mr-2 text-sm font-medium">{{ auth()->user()->name }}</span>
-            <a href="{{ route('password.edit') }}" class="btn btn-secondary">Ganti Password</a>
+            <a href="{{ route('password.edit') }}" class="btn rounded-md border border-white/50 bg-white/10 text-white transition-colors hover:bg-white hover:text-primary-strong focus-visible:bg-white focus-visible:text-primary-strong focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white">Ganti Password</a>
             <form method="POST" action="{{ route('logout') }}">
                 @csrf
-                <button type="submit" class="btn btn-secondary">Keluar</button>
+                <button type="submit" class="btn rounded-md border border-white/50 bg-white/10 text-white transition-colors hover:border-red-500 hover:bg-red-500 hover:text-white focus-visible:border-red-500 focus-visible:bg-red-500 focus-visible:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white">Keluar</button>
             </form>
         </div>
     </header>

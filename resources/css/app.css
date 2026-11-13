@@ -6,18 +6,18 @@
 
 @theme {
     --font-sans: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Noto Sans', Arial, sans-serif;
-    --color-primary: var(--color-indigo-600);
-    --color-primary-strong: var(--color-indigo-700);
-    --color-primary-soft: var(--color-indigo-50);
+    --color-primary: #87A96B;
+    --color-primary-strong: #66834D;
+    --color-primary-soft: #EFF4EA;
 }
 
 @layer components {
     .card {
-        @apply rounded-lg border border-slate-200 bg-white shadow-sm;
+        @apply rounded-lg border border-slate-200 bg-white;
     }
 
     .input {
-        @apply mt-1 block min-h-11 w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-base text-slate-900 shadow-sm placeholder:text-slate-400 focus:border-primary focus:ring-2 focus:ring-primary/30 focus:outline-none aria-invalid:border-red-600;
+        @apply mt-1 block min-h-11 w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-base text-slate-900 placeholder:text-slate-400 focus:border-primary focus:ring-2 focus:ring-primary/30 focus:outline-none aria-invalid:border-red-600;
     }
 
     .btn {
@@ -45,7 +45,7 @@
     }
 
     .tabel th {
-        @apply bg-slate-50 px-4 py-3 font-semibold whitespace-nowrap text-slate-600;
+        @apply px-4 py-3 font-semibold whitespace-nowrap text-slate-700;
     }
 
     .tabel td {
