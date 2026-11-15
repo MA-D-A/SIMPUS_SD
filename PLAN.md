@@ -7,22 +7,7 @@ Sasaran: memudahkan collaborator (campur, ada awam) + laptop Windows sekolah (of
 
 
 
-## 2. Onboarding collaborator (belum dieksekusi)
 
-Keputusan: **tanpa CI** (hemat menit repo private). Validasi manual via `composer test` + `vendor/bin/pint`.
-
-Deliverables:
-
-1. `CONTRIBUTING.md` — setup (`composer setup`), branch model (jangan push `main`, PR), standar kode (`vendor/bin/pint`), gate test (`composer test`), gaya commit (pola repo: `laporan: ...`, `dashboard ...`), checklist PR.
-2. `docs/Manual-Pengguna.md` — pakai app, backup/restore, reset password (`php artisan admin:reset-password`).
-3. `docs/Instalasi-Windows-Offline.md` — panduan operator klik-demi-klik, tanpa jargon.
-4. `.github/PULL_REQUEST_TEMPLATE.md` + `.github/ISSUE_TEMPLATE.md`.
-5. Fix `README.md` — hapus rujukan `docs/02-DPPL.md` (file tak ada), link ke 2 dokumen baru.
-6. Rapikan `.env.example` — un-comment blok DB, `APP_LOCALE=id` (sekarang `en`).
-
-Catatan: `docs/02-DPPL.md` **dibuang** (diminta). Hanya 2 dokumen.
-
----
 
 ## 3. Instalasi offline laptop Windows sekolah (belum dieksekusi)
 
@@ -58,5 +43,5 @@ Perhatian:
 ## Urutan eksekusi yang disarankan
 
 
-2. Dokumen kontribusi (poin 2) — cepat, langsung bermanfaat.
+
 4. Build installer + launcher (poin 3) — paling berat, terakhir.
