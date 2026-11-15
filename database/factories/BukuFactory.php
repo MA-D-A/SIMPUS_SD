@@ -27,7 +27,6 @@ class BukuFactory extends Factory
             'tahun_terbit' => fake()->numberBetween(2005, 2026),
             'isbn' => fake()->isbn13(),
             'kategori_id' => Kategori::factory(),
-            'lokasi_rak' => 'Rak '.fake()->randomElement(['A', 'B', 'C']).'-'.fake()->numberBetween(1, 5),
             'jumlah' => fake()->numberBetween(1, 5),
         ];
     }

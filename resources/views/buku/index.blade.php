@@ -3,6 +3,7 @@
 @section('judul', 'Buku')
 
 @section('aksi')
+    <a href="{{ route('buku.import') }}" class="btn btn-secondary">Import Excel</a>
     <a href="{{ route('buku.create') }}" class="btn btn-primary">+ Tambah Buku</a>
 @endsection
 

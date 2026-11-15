@@ -123,10 +123,10 @@ class LaporanController extends Controller
             'keterangan' => ($kategori ? "Kategori {$kategori->nama} · " : 'Semua kategori · ').'Per '.today()->translatedFormat('j F Y'),
             'namaFile' => 'laporan-inventaris-buku-'.today()->toDateString(),
             'semuaKategori' => Kategori::orderBy('nama')->get(),
-        ], ['No', 'Kode', 'Judul', 'Pengarang', 'Penerbit', 'Tahun', 'Kategori', 'Lokasi rak', 'Jumlah', 'Dipinjam', 'Tersedia'],
+        ], ['No', 'Kode', 'Judul', 'Pengarang', 'Penerbit', 'Tahun', 'Kategori', 'Jumlah', 'Dipinjam', 'Tersedia'],
             fn (Buku $b, int $no) => [
                 $no, $b->kode_buku, $b->judul, $b->pengarang, $b->penerbit ?? '', $b->tahun_terbit ?? '',
-                $b->kategori->nama, $b->lokasi_rak ?? '', $b->jumlah, $b->dipinjam_count, $b->tersedia,
+                $b->kategori->nama, $b->jumlah, $b->dipinjam_count, $b->tersedia,
             ]);
     }
 
@@ -149,7 +149,7 @@ class LaporanController extends Controller
         if ($format === 'pdf' && ($jumlah = $query->count()) > self::BATAS_BARIS_PDF) {
             return redirect($request->fullUrlWithoutQuery('format'))->with('gagal', 'Laporan ini berisi '.number_format($jumlah, 0, ',', '.')
                 .' baris, sedangkan PDF dibatasi '.number_format(self::BATAS_BARIS_PDF, 0, ',', '.').' baris agar komputer tidak kehabisan memori.'
-                .' Persempit filternya, atau gunakan Excel atau Cetak.');
+                .' Persempit filternya, atau gunakan Excel.');
         }
 
         $baris = $query->get();

@@ -10,7 +10,7 @@
         @endif
 
         <div class="grid gap-4 md:grid-cols-2">
-            <x-field name="kode_buku" label="Kode buku" :value="$buku->kode_buku" required maxlength="20" hint="Kode yang tertempel di label buku." />
+            <x-field name="kode_buku" label="Kode buku" :value="$buku->kode_buku" required maxlength="20" />
 
             <x-field name="kategori_id" label="Kategori" required>
                 <select id="kategori_id" name="kategori_id" required class="input"
@@ -34,14 +34,16 @@
             <x-field name="penerbit" label="Penerbit" :value="$buku->penerbit" maxlength="150" />
             <x-field name="tahun_terbit" label="Tahun terbit" type="number" :value="$buku->tahun_terbit" min="1901" :max="now()->year" />
             <x-field name="isbn" label="ISBN" :value="$buku->isbn" maxlength="20" />
+
             <x-field name="kondisi" label="Kondisi" required>
                 <select id="kondisi" name="kondisi" required class="input"
                         @error('kondisi') aria-invalid="true" aria-describedby="kondisi-error" @enderror>
-                    @foreach (['Baik', 'Rusak Ringan', 'Rusak Berat'] as $k)
-                        <option value="{{ $k }}" @selected(old('kondisi', $buku->kondisi ?? 'Baik') === $k)>{{ $k }}</option>
+                    @foreach (['Baik', 'Rusak Ringan', 'Rusak Berat'] as $kondisi)
+                        <option value="{{ $kondisi }}" @selected(old('kondisi', $buku->kondisi ?? 'Baik') === $kondisi)>{{ $kondisi }}</option>
                     @endforeach
                 </select>
             </x-field>
+
             <x-field name="jumlah" label="Jumlah eksemplar" type="number" :value="$buku->jumlah" required min="0" max="9999" />
         </div>
 

@@ -9,7 +9,6 @@
             <th>Penerbit</th>
             <th>Tahun</th>
             <th>Kategori</th>
-            <th>Rak</th>
             <th class="kanan text-right">Jumlah</th>
             <th class="kanan text-right">Dipinjam</th>
             <th class="kanan text-right">Tersedia</th>
@@ -25,14 +24,13 @@
                 <td>{{ $b->penerbit ?? '-' }}</td>
                 <td>{{ $b->tahun_terbit ?? '-' }}</td>
                 <td>{{ $b->kategori->nama }}</td>
-                <td>{{ $b->lokasi_rak ?? '-' }}</td>
                 <td class="kanan text-right tabular-nums">{{ $b->jumlah }}</td>
                 <td class="kanan text-right tabular-nums">{{ $b->dipinjam_count }}</td>
                 <td class="kanan text-right tabular-nums">{{ $b->tersedia }}</td>
             </tr>
         @empty
             <tr>
-                <td colspan="11">Tidak ada data untuk filter ini.</td>
+                <td colspan="10">Tidak ada data untuk filter ini.</td>
             </tr>
         @endforelse
     </tbody>

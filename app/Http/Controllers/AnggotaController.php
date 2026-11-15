@@ -2,11 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AnggotaImportRequest;
 use App\Http\Requests\AnggotaRequest;
 use App\Models\Anggota;
+use App\Services\AnggotaImporter;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Illuminate\View\View;
+use Spatie\SimpleExcel\SimpleExcelWriter;
 
 class AnggotaController extends Controller
 {
@@ -29,6 +34,37 @@ class AnggotaController extends Controller
     public function create(): View
     {
         return view('anggota.form', ['anggota' => new Anggota(['jenis' => 'siswa', 'aktif' => true])]);
+    }
+
+    public function importForm(): View
+    {
+        return view('anggota.import');
+    }
+
+    public function importStore(AnggotaImportRequest $request, AnggotaImporter $importer): RedirectResponse
+    {
+        $berkas = $request->file('file');
+        $ext = strtolower($berkas->getClientOriginalExtension());
+        $path = $berkas->storeAs('import', Str::uuid().'.'.$ext);
+
+        $hasil = $importer->import(Storage::path($path));
+
+        Storage::delete($path);
+
+        return redirect()
+            ->route('anggota.import')
+            ->with('hasil', $hasil);
+    }
+
+    public function importTemplate()
+    {
+        $path = storage_path('app/'.Str::uuid().'.xlsx');
+
+        $writer = SimpleExcelWriter::create($path)
+            ->addHeader(['nomor_induk', 'nama', 'jenis', 'kelas', 'jenis_kelamin', 'no_hp']);
+        $writer->close();
+
+        return response()->download($path, 'template-anggota.xlsx')->deleteFileAfterSend();
     }
 
     public function store(AnggotaRequest $request): RedirectResponse

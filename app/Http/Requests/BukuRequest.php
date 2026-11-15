@@ -17,7 +17,7 @@ class BukuRequest extends FormRequest
 
         return [
             'kode_buku' => ['required', 'string', 'max:20', Rule::unique('buku', 'kode_buku')->ignore($buku)],
-            'judul' => ['required', 'string', 'max:255'],
+            'judul' => ['required', 'string', 'max:255', Rule::unique('buku', 'judul')->ignore($buku)],
             'pengarang' => ['required', 'string', 'max:150'],
             'penerbit' => ['nullable', 'string', 'max:150'],
             'tahun_terbit' => ['nullable', 'integer', 'between:1901,'.now()->year],
@@ -33,6 +33,17 @@ class BukuRequest extends FormRequest
                 },
             ],
             'kondisi' => ['required', 'string', Rule::in(['Baik', 'Rusak Ringan', 'Rusak Berat'])],
+        ];
+    }
+
+    /**
+     * @return array<string, string>
+     */
+    public function messages(): array
+    {
+        return [
+            'kode_buku.unique' => 'Kode buku sudah digunakan.',
+            'judul.unique' => 'Judul buku sudah digunakan.',
         ];
     }
 }

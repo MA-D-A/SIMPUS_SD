@@ -2,12 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\BukuImportRequest;
 use App\Http\Requests\BukuRequest;
 use App\Models\Buku;
 use App\Models\Kategori;
+use App\Services\BukuImporter;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Illuminate\View\View;
+use Spatie\SimpleExcel\SimpleExcelWriter;
 
 class BukuController extends Controller
 {
@@ -31,6 +36,37 @@ class BukuController extends Controller
             'buku' => new Buku(['kode_buku' => Buku::kodeBerikutnya(), 'jumlah' => 1, 'kondisi' => 'Baik']),
             'semuaKategori' => Kategori::orderBy('nama')->get(),
         ]);
+    }
+
+    public function importForm(): View
+    {
+        return view('buku.import');
+    }
+
+    public function importStore(BukuImportRequest $request, BukuImporter $importer): RedirectResponse
+    {
+        $berkas = $request->file('file');
+        $ext = strtolower($berkas->getClientOriginalExtension());
+        $path = $berkas->storeAs('import', Str::uuid().'.'.$ext);
+
+        $hasil = $importer->import(Storage::path($path));
+
+        Storage::delete($path);
+
+        return redirect()
+            ->route('buku.import')
+            ->with('hasil', $hasil);
+    }
+
+    public function importTemplate()
+    {
+        $path = storage_path('app/'.Str::uuid().'.xlsx');
+
+        $writer = SimpleExcelWriter::create($path)
+            ->addHeader(['kode_buku', 'judul', 'pengarang', 'penerbit', 'tahun_terbit', 'isbn', 'kategori', 'jumlah', 'kondisi']);
+        $writer->close();
+
+        return response()->download($path, 'template-buku.xlsx')->deleteFileAfterSend();
     }
 
     public function store(BukuRequest $request): RedirectResponse
