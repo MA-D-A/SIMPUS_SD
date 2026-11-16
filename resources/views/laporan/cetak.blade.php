@@ -11,7 +11,7 @@
         @foreach ([
             'peminjaman' => [3, 7, 8, 14, 13, 4, 6, 15, 8, 8, 7, 7],
             'belum-kembali' => [3, 8, 14, 16, 5, 7, 23, 8, 8, 8],
-            'buku' => [4, 7, 22, 14, 12, 5, 12, 6, 6, 6, 6],
+            'buku' => [4, 6, 20, 13, 11, 5, 11, 6, 6, 6, 6, 6],
         ][$jenis] as $i => $lebar)
             table.data th:nth-child({{ $i + 1 }}) { width: {{ $lebar }}%; }
         @endforeach

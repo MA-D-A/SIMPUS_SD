@@ -15,6 +15,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 use Illuminate\View\View;
 use Spatie\SimpleExcel\SimpleExcelWriter;
 use Symfony\Component\HttpFoundation\Response;
@@ -105,10 +106,14 @@ class LaporanController extends Controller
     public function buku(Request $request): View|Response|RedirectResponse
     {
         $kategori = Kategori::find($request->integer('kategori'));
+        $kondisi = $request->validate([
+            'kondisi' => ['nullable', Rule::in(['Baik', 'Rusak Ringan', 'Rusak Berat'])],
+        ])['kondisi'] ?? null;
 
         $query = Buku::denganStok()
             ->with('kategori')
             ->when($kategori, fn ($q) => $q->whereBelongsTo($kategori))
+            ->when($kondisi, fn ($q) => $q->where('kondisi', $kondisi))
             ->orderBy(Kategori::select('nama')->whereColumn('kategori.id', 'buku.kategori_id'))
             ->orderBy('judul')
             ->orderBy('buku.id');
@@ -120,13 +125,15 @@ class LaporanController extends Controller
             'Tersedia' => $baris->sum('tersedia'),
         ], [
             'judul' => 'Laporan Inventaris Buku',
-            'keterangan' => ($kategori ? "Kategori {$kategori->nama} · " : 'Semua kategori · ').'Per '.today()->translatedFormat('j F Y'),
+            'keterangan' => ($kategori ? "Kategori {$kategori->nama} · " : 'Semua kategori · ')
+                .($kondisi ? "Kondisi {$kondisi} · " : '')
+                .'Per '.today()->translatedFormat('j F Y'),
             'namaFile' => 'laporan-inventaris-buku-'.today()->toDateString(),
             'semuaKategori' => Kategori::orderBy('nama')->get(),
-        ], ['No', 'Kode', 'Judul', 'Pengarang', 'Penerbit', 'Tahun', 'Kategori', 'Jumlah', 'Dipinjam', 'Tersedia'],
+        ], ['No', 'Kode', 'Judul', 'Pengarang', 'Penerbit', 'Tahun', 'Kategori', 'Kondisi', 'Jumlah', 'Dipinjam', 'Tersedia'],
             fn (Buku $b, int $no) => [
                 $no, $b->kode_buku, $b->judul, $b->pengarang, $b->penerbit ?? '', $b->tahun_terbit ?? '',
-                $b->kategori->nama, $b->jumlah, $b->dipinjam_count, $b->tersedia,
+                $b->kategori->nama, $b->kondisi, $b->jumlah, $b->dipinjam_count, $b->tersedia,
             ]);
     }
 

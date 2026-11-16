@@ -19,7 +19,7 @@
             <x-field name="nip_kepala_sekolah" label="NIP kepala sekolah" :value="$pengaturan->nip_kepala_sekolah" maxlength="30" />
             <div class="md:col-span-2">
                 <x-field name="nama_petugas" label="Nama petugas perpustakaan" :value="auth()->user()->name" required maxlength="100"
-                         hint="Tampil di bilah atas dan kolom tanda tangan petugas pada slip dan laporan." />
+                         hint="Tampil di  kolom tanda tangan petugas pada slip dan laporan." />
             </div>
         </fieldset>
 

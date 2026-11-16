@@ -17,6 +17,15 @@
                 @endforeach
             </select>
         </div>
+        <div class="w-full sm:w-64">
+            <label for="kondisi" class="block text-sm font-medium text-slate-700">Kondisi</label>
+            <select id="kondisi" name="kondisi" class="input">
+                <option value="">Semua kondisi</option>
+                @foreach (['Baik', 'Rusak Ringan', 'Rusak Berat'] as $k)
+                    <option value="{{ $k }}" @selected(request('kondisi') === $k)>{{ $k }}</option>
+                @endforeach
+            </select>
+        </div>
         <button type="submit" class="btn btn-secondary">Tampilkan</button>
     </form>
 

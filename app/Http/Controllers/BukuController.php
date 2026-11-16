@@ -23,7 +23,7 @@ class BukuController extends Controller
             ->denganStok()
             ->when($request->string('cari')->trim()->value(), fn ($query, $cari) => $query->cari($cari))
             ->when($request->integer('kategori'), fn ($query, $id) => $query->where('kategori_id', $id))
-            ->orderBy('judul')
+            ->orderBy('kode_buku')
             ->paginate(15)
             ->withQueryString();
 
